@@ -1,5 +1,5 @@
-import repl.command.execute as executeStatement
-import repl.command.prepare as prepareStatement
+import command.execute as executeStatement
+import command.prepare as prepareStatement
 import repl.metacommand.prepare as prepareMetaStatement
 import repl.display.printPrompt
 import repl.input.clean
