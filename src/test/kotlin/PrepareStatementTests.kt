@@ -1,8 +1,8 @@
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
-import repl.Command
-import repl.prepare
+import repl.command.Command
+import repl.command.prepare
 
 class PrepareStatementTests: FunSpec({
     test("insert input returns insert command") {

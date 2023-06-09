@@ -1,4 +1,4 @@
-package repl
+package repl.command
 
 fun execute(command: Command) {
     when(command) {

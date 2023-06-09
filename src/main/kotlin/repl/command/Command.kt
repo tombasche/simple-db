@@ -1,4 +1,4 @@
-package repl
+package repl.command
 
 enum class Command {
     Insert,

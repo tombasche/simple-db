@@ -1,4 +1,4 @@
-package repl
+package repl.command
 
 fun prepare(input: String): Command? {
     // TODO lift the casing out somehow and give a stricter contract?

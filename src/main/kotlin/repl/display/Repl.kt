@@ -1,3 +1,3 @@
-package repl
+package repl.display
 
 fun printPrompt() = print("db > ")

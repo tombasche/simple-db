@@ -1,6 +1,6 @@
 import io.kotest.core.spec.style.FunSpec
-import repl.Command
-import repl.execute
+import repl.command.Command
+import repl.command.execute
 
 class ExecuteStatementTests: FunSpec({
     test("it executes a select") {
