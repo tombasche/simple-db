@@ -1,6 +1,5 @@
 package statement
 
-// TODO make it generic
 data class SelectStatement(
-    val row: TempRow,
+    val columns: List<String>,
 ) : Statement()

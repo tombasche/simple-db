@@ -3,6 +3,7 @@ package command
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
 import statement.InsertStatement
 import statement.SelectStatement
 import statement.TempRow
@@ -20,10 +21,7 @@ class PrepareStatementTests: FunSpec({
 
     test("select input returns select command") {
         val input = "select foo bar"
-        val result = prepare(input) as SelectStatement
-        result.row.id shouldBe "1"
-        result.row.username shouldBe "cstack"
-        result.row.email shouldBe "foo@bar.com"
+        prepare(input).shouldBeTypeOf<SelectStatement>()
     }
 
     test("unknown command returns a null") {
