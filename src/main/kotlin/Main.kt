@@ -4,9 +4,11 @@ import repl.metacommand.prepare as prepareMetaStatement
 import repl.display.printPrompt
 import repl.input.clean
 import repl.metacommand.isPossibleMetaStatement
+import storage.Table
 import repl.metacommand.execute as executeMetaStatement
 
 fun main(args: Array<String>) {
+    val table = Table.new()
     while(true) {
         printPrompt()
         val input = readlnOrNull()?.let { clean(it) } ?: continue
@@ -23,7 +25,7 @@ fun main(args: Array<String>) {
         with(prepareStatement(input)) {
             when(this) {
                 null -> println("Unrecognized command '$input'")
-                else -> executeStatement(this)
+                else -> executeStatement(table, this)
             }
         }
     }
