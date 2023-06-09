@@ -10,9 +10,12 @@ import statement.TempRow
 class ExecuteStatementTests: FunSpec({
     test("it executes a select") {
         execute(SelectStatement(
-            id = "1",
-            username = "cstack",
-            email = "foo@bar.com"
+            TempRow(
+                id = "1",
+                username = "cstack",
+                email = "foo@bar.com"
+            )
+
         ))
     }
     test("it executes an insert") {

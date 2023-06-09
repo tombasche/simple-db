@@ -21,9 +21,9 @@ class PrepareStatementTests: FunSpec({
     test("select input returns select command") {
         val input = "select foo bar"
         val result = prepare(input) as SelectStatement
-        result.id shouldBe "1"
-        result.username shouldBe "cstack"
-        result.email shouldBe "foo@bar.com"
+        result.row.id shouldBe "1"
+        result.row.username shouldBe "cstack"
+        result.row.email shouldBe "foo@bar.com"
     }
 
     test("unknown command returns a null") {

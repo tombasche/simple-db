@@ -6,7 +6,7 @@ import statement.Statement
 
 fun execute(statement: Statement) {
     when(statement) {
-        is InsertStatement -> println("inserting ... ")
-        is SelectStatement -> println("selecting ... ")
+        is InsertStatement -> println("inserting ${statement.row} ...")
+        is SelectStatement -> println("selecting $statement ")
     }
 }
