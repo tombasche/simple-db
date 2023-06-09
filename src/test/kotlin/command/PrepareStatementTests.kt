@@ -1,3 +1,5 @@
+package command
+
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
@@ -23,9 +25,9 @@ class PrepareStatementTests: FunSpec({
         result.shouldBeNull()
     }
 
-    test("command is case insensitive") {
+    test("command must be lowercase") {
         val input = "SELECT foo bar"
         val result = prepare(input)
-        result shouldBe Command.Select
+        result.shouldBeNull()
     }
 })

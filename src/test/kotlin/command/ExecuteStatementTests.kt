@@ -1,3 +1,5 @@
+package command
+
 import io.kotest.core.spec.style.FunSpec
 import repl.command.Command
 import repl.command.execute

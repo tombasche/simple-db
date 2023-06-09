@@ -1,8 +1,7 @@
 package repl.command
 
 fun prepare(input: String): Command? {
-    // TODO lift the casing out somehow and give a stricter contract?
-    if (input.lowercase().startsWith("insert")) return Command.Insert
-    if (input.lowercase().startsWith("select")) return Command.Select
+    if (input.startsWith("insert")) return Command.Insert
+    if (input.startsWith("select")) return Command.Select
     return null
 }
