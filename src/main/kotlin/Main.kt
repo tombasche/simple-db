@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
         with(prepareStatement(input)) {
             when(this) {
                 null -> println("Unrecognized command '$input'")
-                else -> executeStatement(table, this)
+                else -> println(executeStatement(table, this))
             }
         }
     }
