@@ -6,5 +6,5 @@ import storage.allocateRow
 import storage.serializeRow
 
 fun executeInsert(table: Table, insertStatement: InsertStatement) {
-    allocateRow(table, serializeRow(insertStatement.row))
+    allocateRow(table, insertStatement.row)
 }

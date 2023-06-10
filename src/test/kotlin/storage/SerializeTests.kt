@@ -16,7 +16,6 @@ class SerializeTests: FunSpec({
         )
         val result = serializeRow(row)
         result.shouldBeTypeOf<ByteArray>()
-        // TODO - should serialize into below
-//        String(result) shouldBe "1,cstack,foo@bar.com"
+        String(result) shouldBe "1,cstack,foo@bar.com"
     }
 })

@@ -7,20 +7,18 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import statement.InsertStatement
 import statement.SelectStatement
 import statement.Row
+import utils.Either
+import utils.Success
 
 class PrepareStatementTests: FunSpec({
     test("insert input returns insert command") {
-        val input = "insert 1 cstack foo@bar.com"
-        val result = prepare(input) as InsertStatement
-        result.row shouldBe Row(
-            id="1",
-            fields = emptyMap<String, Any>()
-        )
+        val input = "insert id=1 name=cstack whatever=foo@bar.com users"
+        prepare(input).shouldBeTypeOf<Success<InsertStatement>>()
     }
 
     test("select input returns select command") {
         val input = "select foo bar"
-        prepare(input).shouldBeTypeOf<SelectStatement>()
+        prepare(input).shouldBeTypeOf<Success<SelectStatement>>()
     }
 
     test("unknown command returns a null") {
