@@ -1,9 +1,9 @@
 package select
 
 import statement.SelectStatement
-import statement.TempRow
+import statement.Row
 import storage.Table
 import storage.retrieveRows
 
-fun executeSelect(table: Table, statement: SelectStatement): List<TempRow> =
+fun executeSelect(table: Table, statement: SelectStatement): List<Row> =
     retrieveRows(table)

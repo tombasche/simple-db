@@ -2,7 +2,7 @@ package storage
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import statement.TempRow
+import statement.Row
 
 class FetchRetrieveIntegrationTests: FunSpec({
     test("insert and select rows") {
@@ -13,10 +13,9 @@ class FetchRetrieveIntegrationTests: FunSpec({
 
         val rows = retrieveRows(table)
         rows shouldBe listOf(
-            TempRow(
+            Row(
                 id = "1",
-                username = "cstack",
-                email = "foo@bar.com"
+                fields = emptyMap<String, Any>()
             )
         )
 

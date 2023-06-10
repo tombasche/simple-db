@@ -1,12 +1,11 @@
 package storage
 
-import statement.TempRow
+import statement.Row
 
-fun deserializeRow(input: ByteArray): TempRow {
+fun deserializeRow(input: ByteArray): Row {
     val parts = String(input).split(",")
-    return TempRow(
+    return Row(
         id = parts[0],
-        username = parts[1],
-        email = parts[2]
+        fields = emptyMap<String, String>(),
     )
 }

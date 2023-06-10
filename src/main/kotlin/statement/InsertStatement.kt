@@ -1,13 +1,13 @@
 package statement
 
 data class InsertStatement(
-    val row: TempRow
+    val row: Row
 ) : Statement()
 
 
-// TODO - genericise
-data class TempRow(
-    val id: String,
-    val username: String,
-    val email: String
+typealias FieldName = String
+typealias Id = String
+data class Row(
+    val id: Id,
+    val fields: Map<FieldName, *>
 )

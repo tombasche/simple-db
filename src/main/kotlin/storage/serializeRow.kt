@@ -1,7 +1,7 @@
 package storage
 
-import statement.TempRow
+import statement.Row
 
-fun serializeRow(row: TempRow): ByteArray {
-    return "${row.id},${row.username},${row.email}".toByteArray()
+fun serializeRow(row: Row): ByteArray {
+    return "${row.id}".toByteArray()
 }

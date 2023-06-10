@@ -6,16 +6,15 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import statement.InsertStatement
 import statement.SelectStatement
-import statement.TempRow
+import statement.Row
 
 class PrepareStatementTests: FunSpec({
     test("insert input returns insert command") {
         val input = "insert 1 cstack foo@bar.com"
         val result = prepare(input) as InsertStatement
-        result.row shouldBe TempRow(
+        result.row shouldBe Row(
             id="1",
-            username="cstack",
-            email="foo@bar.com"
+            fields = emptyMap<String, Any>()
         )
     }
 

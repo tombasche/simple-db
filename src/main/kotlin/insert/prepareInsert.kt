@@ -1,7 +1,7 @@
 package insert
 
 import statement.InsertStatement
-import statement.TempRow
+import statement.Row
 
 // TODO - could this use a monadic type?
 fun prepareInsert(input: String): InsertStatement {
@@ -9,10 +9,9 @@ fun prepareInsert(input: String): InsertStatement {
     val tokenized = input.split(" ").filter { it != "insert"}
 
     return InsertStatement(
-        row = TempRow(
+        row = Row(
             id = tokenized[0],
-            username = tokenized[1],
-            email = tokenized[2]
+            fields = emptyMap<String, String>()
         )
     )
 }

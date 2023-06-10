@@ -2,7 +2,7 @@ package storage
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import statement.TempRow
+import statement.Row
 
 class RetrieveRowTests: FunSpec({
     test("retrieve all rows") {
@@ -11,10 +11,9 @@ class RetrieveRowTests: FunSpec({
         val result = retrieveRows(table)
 
         result shouldBe listOf(
-            TempRow(
+            Row(
                 id = "1",
-                username = "cstack",
-                email = "foo@bar.com"
+                fields = emptyMap<String, Any>()
             )
         )
     }

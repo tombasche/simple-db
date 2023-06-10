@@ -3,7 +3,7 @@ package command
 import io.kotest.core.spec.style.FunSpec
 import statement.InsertStatement
 import statement.SelectStatement
-import statement.TempRow
+import statement.Row
 import storage.Table
 
 class ExecuteStatementTests: FunSpec({
@@ -19,10 +19,9 @@ class ExecuteStatementTests: FunSpec({
         execute(
             Table.new(),
             InsertStatement(
-                row = TempRow(
+                row = Row(
                     id = "1",
-                    username = "cstack",
-                    email = "foo@bar.com"
+                    fields = emptyMap<String, Any>()
                 )
             )
         )
