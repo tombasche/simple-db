@@ -19,6 +19,7 @@ class ExecuteStatementTests: FunSpec({
         execute(
             Table.new(),
             InsertStatement(
+                table = "TODO",
                 row = Row(
                     id = "1",
                     fields = emptyMap<String, Any>()

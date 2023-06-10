@@ -2,16 +2,48 @@ package insert
 
 import statement.InsertStatement
 import statement.Row
+import utils.Either
+import utils.Failure
+import utils.Success
+import utils.get
 
-// TODO - could this use a monadic type?
-fun prepareInsert(input: String): InsertStatement {
+fun prepareInsert(input: String): Either<InsertStatement> {
+    val tokenizedResult = tokenizeInput(input).let {
+        if (it is Failure) {
+            return Failure(it.error)
+        } else {
+            it.get()
+        }
+    }
 
-    val tokenized = input.split(" ").filter { it != "insert"}
-
-    return InsertStatement(
+    return Success(InsertStatement(
+        table = tokenizedResult.tableName,
         row = Row(
-            id = tokenized[0],
-            fields = emptyMap<String, String>()
+            id = tokenizedResult.id,
+            fields = tokenizedResult.fields
         )
-    )
+    ))
 }
+
+private fun tokenizeInput(input: String): Either<TokenizedInput> {
+    val tokens = input.split(" ").filter { it != "insert" }.reversed()
+    val fields = tokens.filter { it.contains("=") }
+    val fieldsAsMap = fields.associate { it.split("=")[0] to it.split("=")[1] }
+    val id = fields.find { it.startsWith("id") }?.split("=")?.get(1)
+
+    val tableName = parseTableName(tokens)
+        ?: return Failure("insert statement requires table name")
+    return Success(TokenizedInput(
+        tableName = tableName,
+        id = id as String,
+        fields = fieldsAsMap,
+    ))
+}
+
+private fun parseTableName(tokens: List<String>): String? = tokens.find { !it.contains("=") }
+
+private data class TokenizedInput(
+    val tableName: String,
+    val id: String,
+    val fields: Map<String, String>
+)

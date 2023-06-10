@@ -5,6 +5,8 @@ import repl.display.printPrompt
 import repl.input.clean
 import repl.metacommand.isPossibleMetaStatement
 import storage.Table
+import utils.Failure
+import utils.Success
 import repl.metacommand.execute as executeMetaStatement
 
 fun main(args: Array<String>) {
@@ -25,7 +27,8 @@ fun main(args: Array<String>) {
         with(prepareStatement(input)) {
             when(this) {
                 null -> println("Unrecognized command '$input'")
-                else -> println(executeStatement(table, this))
+                is Failure -> println("Failed to parse statement: '$input' due to ${this.error}")
+                is Success -> println(executeStatement(table, this.value))
             }
         }
     }
