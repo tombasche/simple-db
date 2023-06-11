@@ -2,14 +2,19 @@ package storage
 
 import statement.Row
 
+// TODO this needs some love
 fun allocateRow(pager: Pager, collectionName: String, row: Row) {
-    pager.rows[collectionName] = pager.rows[collectionName] ?: mutableListOf()
-    pager.rows[collectionName]?.add(serializeRow(row))
+    if (pager.pages.isEmpty())
+        pager.pages = mutableListOf(Page(rows = mutableMapOf()))
+
+    pager.pages.first().rows[collectionName] = pager.pages.first().rows[collectionName] ?: mutableListOf()
+    pager.pages.first().rows[collectionName]?.add(serializeRow(row))
 }
 
-// TODO don't just fetch everything :D
 fun retrieveRows(pager: Pager, collectionName: String): List<Row> {
-    val rows = pager.rows[collectionName] ?: return emptyList()
+    val pages = pager.pages
+    if (pages.isEmpty()) return emptyList()
+    val rows = pages.first().rows[collectionName] ?: return emptyList()
     return rows.map(::deserializeRow)
 }
 
