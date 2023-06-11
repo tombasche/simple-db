@@ -12,12 +12,13 @@ import repl.metacommand.execute as executeMetaStatement
 import repl.metacommand.prepare as prepareMetaStatement
 
 fun main(args: Array<String>) {
-
+    // TODO allow passing in a db name from args
     val table = Table.open("todo.db")
     registerShutdownHandler(table)
 
     while (true) {
         printPrompt()
+        // TODO allow passing in the input from args
         val input = readlnOrNull()?.let { clean(it) } ?: continue
         if (isPossibleMetaStatement(input)) {
             with(prepareMetaStatement(input)) {

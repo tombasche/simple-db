@@ -1,5 +1,6 @@
 package storage
 
+// TODO - do we need this anymore?
 data class Table(
     val storage: Storage
 ) {
