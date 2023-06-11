@@ -5,6 +5,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import statement.SelectStatement
 import storage.Table
+import storage.clear
 
 class ExecuteSelectTests : FunSpec({
     test("executes a select") {
@@ -15,5 +16,6 @@ class ExecuteSelectTests : FunSpec({
 
         val result = executeSelect(table, statement)
         result shouldBe emptyList()
+        table.storage.clear()
     }
 })

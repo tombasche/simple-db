@@ -3,6 +3,7 @@ package insert
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import storage.Table
+import storage.clear
 import utils.Success
 
 class ExecuteInsertTests : FunSpec({
@@ -12,5 +13,6 @@ class ExecuteInsertTests : FunSpec({
 
         val result = executeInsert(table, row)
         result shouldBe Unit
+        table.storage.clear()
     }
 })

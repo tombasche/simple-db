@@ -18,5 +18,6 @@ class FetchRetrieveIntegrationTests : FunSpec({
         allocateRow(storage, collectionName, row)
 
         retrieveRows(storage, collectionName) shouldBe listOf(Row(id = row.id, fields = row.fields))
+        storage.clear()
     }
 })
