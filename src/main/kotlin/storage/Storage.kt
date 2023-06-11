@@ -49,4 +49,6 @@ fun Storage.load() {
     }
 }
 
-fun Storage.clear() = if (file.exists()) file.delete().let { Unit } else Unit
+fun Storage.clear() = rows.clear().also {
+        if (file.exists()) file.delete() else Unit
+    }
