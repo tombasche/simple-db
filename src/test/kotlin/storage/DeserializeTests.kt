@@ -5,9 +5,10 @@ import io.kotest.matchers.shouldBe
 
 class DeserializeTests: FunSpec({
     test("deserialize a compact representation into a row") {
-        val input = "1,cstack,foo@bar.com".toByteArray()
+        val input = "1,username=cstack,email=foo@bar.com".toByteArray()
         val result = deserializeRow(input)
         result.id shouldBe "1"
-        // TODO assertions for map
+        result.fields["username"] shouldBe "cstack"
+        result.fields["email"] shouldBe "foo@bar.com"
     }
 })

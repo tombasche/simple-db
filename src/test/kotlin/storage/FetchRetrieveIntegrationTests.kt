@@ -14,14 +14,6 @@ class FetchRetrieveIntegrationTests: FunSpec({
 
         allocateRow(table, row)
 
-        val rows = retrieveRows(table)
-        rows shouldBe listOf(
-            Row(
-                id = "1",
-                fields = mapOf(
-                    "username" to "cstack",
-                    "email" to "foo@bar.com"
-                ))
-            )
+        retrieveRows(table) shouldBe listOf(Row(id = row.id, fields = row.fields))
     }
 })
