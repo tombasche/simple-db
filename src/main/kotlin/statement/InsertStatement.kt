@@ -1,7 +1,7 @@
 package statement
 
 data class InsertStatement(
-    val table: String,
+    val collectionName: String,
     val row: Row
 ) : Statement()
 

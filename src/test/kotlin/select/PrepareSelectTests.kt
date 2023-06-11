@@ -6,8 +6,8 @@ import utils.Success
 
 class PrepareSelectTests: FunSpec({
     test("args are parsed from the input") {
-        val input = "select id username email"
+        val input = "select users"
         val result = (prepareSelect(input) as Success).value
-        result.columns shouldBe listOf("id", "username", "email")
+        result.collectionName shouldBe "users"
     }
 })

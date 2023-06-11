@@ -17,7 +17,7 @@ fun prepareInsert(input: String): Either<InsertStatement> {
     }
 
     return Success(InsertStatement(
-        table = tokenizedResult.tableName,
+        collectionName = tokenizedResult.collectionName,
         row = Row(
             id = tokenizedResult.id,
             fields = tokenizedResult.fields
@@ -31,19 +31,19 @@ private fun tokenizeInput(input: String): Either<TokenizedInput> {
     val fieldsAsMap = fields.associate { it.split("=")[0] to it.split("=")[1] }
     val id = fields.find { it.startsWith("id") }?.split("=")?.get(1)
 
-    val tableName = parseTableName(tokens)
-        ?: return Failure("insert statement requires table name")
+    val collectionName = parseCollectionName(tokens)
+        ?: return Failure("insert statement requires collection name")
     return Success(TokenizedInput(
-        tableName = tableName,
+        collectionName = collectionName,
         id = id as String,
         fields = fieldsAsMap,
     ))
 }
 
-private fun parseTableName(tokens: List<String>): String? = tokens.find { !it.contains("=") }
+private fun parseCollectionName(tokens: List<String>): String? = tokens.find { !it.contains("=") }
 
 private data class TokenizedInput(
-    val tableName: String,
+    val collectionName: String,
     val id: String,
     val fields: Map<String, String>
 )
