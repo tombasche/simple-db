@@ -9,8 +9,25 @@ data class BlockStorage(
 ) {
     companion object {
         fun open(dbName: String) = BlockStorage(
-            file = File(dbName),
+            file = getOrCreateDbFile(File(dbName)),
             rows = mutableMapOf()
         )
     }
+}
+
+private fun getOrCreateDbFile(dbFile: File) =
+    when(dbFile.exists()) {
+        true -> dbFile
+        false -> dbFile.createNewFile().let { dbFile }
+    }
+
+fun BlockStorage.flush() {
+    rows.forEach {
+        (k, v) ->
+        file.appendBytes("$k:".toByteArray())
+        v.forEach{
+            file.appendBytes(it)
+        }
+    }
+    rows.clear()
 }

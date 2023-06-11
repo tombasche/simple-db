@@ -7,7 +7,7 @@ fun allocateRow(blockStorage: BlockStorage, collectionName: String, row: Row) {
     blockStorage.rows[collectionName]?.add(serializeRow(row))
 }
 
-fun retrieveRows(blockStorage: BlockStorage, collectionName: String): List<Row> {
-    val rows = blockStorage.rows[collectionName] ?: return emptyList()
-    return rows.map(::deserializeRow)
-}
+fun retrieveRows(blockStorage: BlockStorage, collectionName: String): List<Row> =
+    with(blockStorage.rows[collectionName] ?: emptyList()) {
+        this.map(::deserializeRow)
+    }
