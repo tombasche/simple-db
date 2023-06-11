@@ -1,13 +1,11 @@
 package storage
 
-import java.io.File
-
 data class Table(
-    val pager: Pager
+    val blockStorage: BlockStorage
 ) {
     companion object {
         fun open(dbName: String) = Table(
-            pager = Pager.open(dbName),
+            blockStorage = BlockStorage.open(dbName),
         )
     }
 }

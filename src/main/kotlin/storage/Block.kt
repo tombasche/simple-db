@@ -1,5 +1,5 @@
 package storage
 
-data class Page(
+data class Block(
     val rows: MutableMap<String, MutableList<ByteArray>>,
 )
