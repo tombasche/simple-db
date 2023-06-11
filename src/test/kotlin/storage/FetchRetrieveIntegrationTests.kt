@@ -6,15 +6,15 @@ import statement.Row
 
 class FetchRetrieveIntegrationTests: FunSpec({
     test("insert and select rows") {
-        val table = Table.new()
+        val pager = Pager.open("test.db")
         val collectionName = "users"
         val row = Row(id="1", fields= mapOf(
             "username" to "cstack",
             "email" to "foo@bar.com"
         ))
 
-        allocateRow(table, collectionName, row)
+        allocateRow(pager, collectionName, row)
 
-        retrieveRows(table, collectionName) shouldBe listOf(Row(id = row.id, fields = row.fields))
+        retrieveRows(pager, collectionName) shouldBe listOf(Row(id = row.id, fields = row.fields))
     }
 })

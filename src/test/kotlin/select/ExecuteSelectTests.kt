@@ -8,7 +8,7 @@ import storage.Table
 
 class ExecuteSelectTests: FunSpec({
     test("executes a select") {
-        val table = Table.new()
+        val table = Table.open("test.db")
         val statement = SelectStatement(
             collectionName = "users",
         )

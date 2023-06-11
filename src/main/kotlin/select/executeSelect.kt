@@ -6,4 +6,4 @@ import storage.Table
 import storage.retrieveRows
 
 fun executeSelect(table: Table, statement: SelectStatement): List<Row> =
-    retrieveRows(table, statement.collectionName)
+    retrieveRows(table.pager, statement.collectionName)

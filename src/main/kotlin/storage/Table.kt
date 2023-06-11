@@ -1,10 +1,13 @@
 package storage
+
+import java.io.File
+
 data class Table(
-    val rows: MutableMap<String, MutableList<ByteArray>>,
+    val pager: Pager
 ) {
     companion object {
-        fun new() = Table(
-            rows = mutableMapOf(),
+        fun open(dbName: String) = Table(
+            pager = Pager.open(dbName),
         )
     }
 }

@@ -10,7 +10,7 @@ import utils.Success
 import repl.metacommand.execute as executeMetaStatement
 
 fun main(args: Array<String>) {
-    val table = Table.new()
+    val table = Table.open("todo.db")
     while(true) {
         printPrompt()
         val input = readlnOrNull()?.let { clean(it) } ?: continue
