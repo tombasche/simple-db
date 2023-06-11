@@ -8,26 +8,43 @@ data class BlockStorage(
     val rows: MutableMap<String, MutableList<ByteArray>>,
 ) {
     companion object {
-        fun open(dbName: String) = BlockStorage(
-            file = getOrCreateDbFile(File(dbName)),
-            rows = mutableMapOf()
-        )
+        fun open(dbName: String): BlockStorage =
+            with(
+                BlockStorage(
+                    file = getOrCreateDbFile(File(dbName)),
+                    rows = mutableMapOf()
+                )
+            ) {
+                load()
+                this
+            }
     }
 }
 
 private fun getOrCreateDbFile(dbFile: File) =
-    when(dbFile.exists()) {
+    when (dbFile.exists()) {
         true -> dbFile
         false -> dbFile.createNewFile().let { dbFile }
     }
 
 fun BlockStorage.flush() {
-    rows.forEach {
-        (k, v) ->
-        file.appendBytes("$k:".toByteArray())
-        v.forEach{
-            file.appendBytes(it)
+    fun formatRow(tableName: String, row: ByteArray) = "$tableName:".toByteArray() + row + "\n".toByteArray()
+
+    rows.forEach { (k, v) ->
+        v.forEach {
+            file.appendBytes(formatRow(k, it))
         }
     }
     rows.clear()
+}
+
+fun BlockStorage.load() {
+    file.readLines().forEach { line ->
+        line.split(":").let {
+            val tableName = it.first()
+            val row = deserializeRow(it[1].toByteArray())
+            rows[tableName] = rows[tableName] ?: mutableListOf()
+            rows[tableName]?.add(serializeRow(row))
+        }
+    }
 }

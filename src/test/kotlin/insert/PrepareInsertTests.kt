@@ -10,7 +10,7 @@ class PrepareInsertTests: FunSpec({
         val input = "insert id=1 name=cstack email=foo@bar.com users"
         val result = (prepareInsert(input) as Success).value
         result.collectionName shouldBe "users"
-        result.row.id shouldBe "1"
+        result.row.id shouldBe "1" // TODO generate a monotonically increasing id instead of needing to pass one in
         result.row.fields["name"] shouldBe "cstack"
         result.row.fields["email"] shouldBe "foo@bar.com"
     }
