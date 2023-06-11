@@ -16,13 +16,15 @@ fun prepareInsert(input: String): Either<InsertStatement> {
         }
     }
 
-    return Success(InsertStatement(
-        collectionName = tokenizedResult.collectionName,
-        row = Row(
-            id = tokenizedResult.id,
-            fields = tokenizedResult.fields
+    return Success(
+        InsertStatement(
+            collectionName = tokenizedResult.collectionName,
+            row = Row(
+                id = tokenizedResult.id,
+                fields = tokenizedResult.fields
+            )
         )
-    ))
+    )
 }
 
 private fun tokenizeInput(input: String): Either<TokenizedInput> {
@@ -33,11 +35,13 @@ private fun tokenizeInput(input: String): Either<TokenizedInput> {
 
     val collectionName = parseCollectionName(tokens)
         ?: return Failure("insert statement requires collection name")
-    return Success(TokenizedInput(
-        collectionName = collectionName,
-        id = id as String,
-        fields = fieldsAsMap,
-    ))
+    return Success(
+        TokenizedInput(
+            collectionName = collectionName,
+            id = id as String,
+            fields = fieldsAsMap,
+        )
+    )
 }
 
 private fun parseCollectionName(tokens: List<String>): String? = tokens.find { !it.contains("=") }

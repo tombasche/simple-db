@@ -3,14 +3,14 @@ package storage
 import java.io.File
 
 
-data class BlockStorage(
+data class Storage(
     val file: File,
     val rows: MutableMap<String, MutableList<ByteArray>>,
 ) {
     companion object {
-        fun open(dbName: String): BlockStorage =
+        fun open(dbName: String): Storage =
             with(
-                BlockStorage(
+                Storage(
                     file = getOrCreateDbFile(File(dbName)),
                     rows = mutableMapOf()
                 )
@@ -27,7 +27,7 @@ private fun getOrCreateDbFile(dbFile: File) =
         false -> dbFile.createNewFile().let { dbFile }
     }
 
-fun BlockStorage.flush() {
+fun Storage.flush() {
     fun formatRow(tableName: String, row: ByteArray) = "$tableName:".toByteArray() + row + "\n".toByteArray()
 
     rows.forEach { (k, v) ->
@@ -38,7 +38,7 @@ fun BlockStorage.flush() {
     rows.clear()
 }
 
-fun BlockStorage.load() {
+fun Storage.load() {
     file.readLines().forEach { line ->
         line.split(":").let {
             val tableName = it.first()

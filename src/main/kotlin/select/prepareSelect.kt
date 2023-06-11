@@ -7,11 +7,13 @@ import utils.Success
 
 fun prepareSelect(input: String): Either<SelectStatement> =
     with(parseCollectionName(input)) {
-        when(this) {
+        when (this) {
             null -> Failure("select statement requires collection name")
-            else -> Success(SelectStatement(
-                collectionName = this
-            ))
+            else -> Success(
+                SelectStatement(
+                    collectionName = this
+                )
+            )
         }
     }
 

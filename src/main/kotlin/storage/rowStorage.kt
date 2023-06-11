@@ -2,12 +2,12 @@ package storage
 
 import statement.Row
 
-fun allocateRow(blockStorage: BlockStorage, collectionName: String, row: Row) {
-    blockStorage.rows[collectionName] = blockStorage.rows[collectionName] ?: mutableListOf()
-    blockStorage.rows[collectionName]?.add(serializeRow(row))
+fun allocateRow(storage: Storage, collectionName: String, row: Row) {
+    storage.rows[collectionName] = storage.rows[collectionName] ?: mutableListOf()
+    storage.rows[collectionName]?.add(serializeRow(row))
 }
 
-fun retrieveRows(blockStorage: BlockStorage, collectionName: String): List<Row> =
-    with(blockStorage.rows[collectionName] ?: emptyList()) {
+fun retrieveRows(storage: Storage, collectionName: String): List<Row> =
+    with(storage.rows[collectionName] ?: emptyList()) {
         this.map(::deserializeRow)
     }

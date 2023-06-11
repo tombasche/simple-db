@@ -6,7 +6,7 @@ import io.kotest.matchers.shouldBe
 import statement.Row
 import java.io.File
 
-class BlockStorageIntegrationTests: FunSpec({
+class StorageIntegrationTests : FunSpec({
     beforeSpec {
         deleteTestDb()
     }
@@ -15,25 +15,33 @@ class BlockStorageIntegrationTests: FunSpec({
         deleteTestDb()
     }
 
-    test("flushes the block storage to disk and reads it back") {
-        val blockStorage = BlockStorage.open(localTestDbName())
-        allocateRow(blockStorage, "users", Row(id="1", fields = mapOf(
-            "username" to "cstack",
-            "email" to "foo@bar.com"
-        )))
-        allocateRow(blockStorage, "users", Row(id="2", fields = mapOf(
-            "username" to "foobar",
-            "email" to "foo@bar2.com"
-        )))
+    test("flushes the storage to disk and reads it back") {
+        val storage = Storage.open(localTestDbName())
+        allocateRow(
+            storage, "users", Row(
+                id = "1", fields = mapOf(
+                    "username" to "cstack",
+                    "email" to "foo@bar.com"
+                )
+            )
+        )
+        allocateRow(
+            storage, "users", Row(
+                id = "2", fields = mapOf(
+                    "username" to "foobar",
+                    "email" to "foo@bar2.com"
+                )
+            )
+        )
 
-        blockStorage.flush()
-        blockStorage.file.readLines() shouldBe listOf(
+        storage.flush()
+        storage.file.readLines() shouldBe listOf(
             "users:1,username=cstack,email=foo@bar.com",
             "users:2,username=foobar,email=foo@bar2.com",
         )
-        blockStorage.rows.shouldBeEmpty()
+        storage.rows.shouldBeEmpty()
 
-        val secondRun = BlockStorage.open(localTestDbName())
+        val secondRun = Storage.open(localTestDbName())
 
         secondRun.rows shouldBe mapOf(
             "users" to mutableListOf(

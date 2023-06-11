@@ -1,11 +1,11 @@
 package storage
 
 data class Table(
-    val blockStorage: BlockStorage
+    val storage: Storage
 ) {
     companion object {
         fun open(dbName: String) = Table(
-            blockStorage = BlockStorage.open(dbName),
+            storage = Storage.open(dbName),
         )
     }
 }

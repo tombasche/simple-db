@@ -8,6 +8,7 @@ data class InsertStatement(
 
 typealias FieldName = String
 typealias Id = String
+
 data class Row(
     val id: Id,
     val fields: Map<FieldName, *>

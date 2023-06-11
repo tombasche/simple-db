@@ -1,9 +1,9 @@
 package select
 
-import statement.SelectStatement
 import statement.Row
+import statement.SelectStatement
 import storage.Table
 import storage.retrieveRows
 
 fun executeSelect(table: Table, statement: SelectStatement): List<Row> =
-    retrieveRows(table.blockStorage, statement.collectionName)
+    retrieveRows(table.storage, statement.collectionName)

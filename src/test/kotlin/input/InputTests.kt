@@ -5,7 +5,7 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import repl.input.clean
 
-class InputTests: FunSpec({
+class InputTests : FunSpec({
     test("extra spaces are removed from the input") {
         val rawInput = "  select   "
         val result = clean(rawInput)

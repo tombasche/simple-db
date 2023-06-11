@@ -2,15 +2,12 @@ package command
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldBeNull
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import statement.InsertStatement
 import statement.SelectStatement
-import statement.Row
-import utils.Either
 import utils.Success
 
-class PrepareStatementTests: FunSpec({
+class PrepareStatementTests : FunSpec({
     test("insert input returns insert command") {
         val input = "insert id=1 name=cstack whatever=foo@bar.com users"
         prepare(input).shouldBeTypeOf<Success<InsertStatement>>()

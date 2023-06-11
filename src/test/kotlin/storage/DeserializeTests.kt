@@ -3,7 +3,7 @@ package storage
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class DeserializeTests: FunSpec({
+class DeserializeTests : FunSpec({
     test("deserialize a compact representation into a row") {
         val input = "1,username=cstack,email=foo@bar.com".toByteArray()
         val result = deserializeRow(input)

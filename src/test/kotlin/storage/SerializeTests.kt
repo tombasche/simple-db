@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import statement.Row
 
-class SerializeTests: FunSpec({
+class SerializeTests : FunSpec({
     test("serialize a row into a compact representation") {
         val row = Row(
             id = "1",
