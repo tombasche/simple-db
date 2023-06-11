@@ -7,14 +7,6 @@ import statement.Row
 import java.io.File
 
 class StorageIntegrationTests : FunSpec({
-    beforeSpec {
-        deleteTestDb()
-    }
-
-    afterEach {
-        deleteTestDb()
-    }
-
     test("flushes the storage to disk and reads it back") {
         val storage = Storage.open(localTestDbName())
         allocateRow(
@@ -49,12 +41,8 @@ class StorageIntegrationTests : FunSpec({
                 "2,username=foobar,email=foo@bar2.com".toByteArray(),
             )
         )
+        storage.clear()
     }
 })
 
 private fun localTestDbName() = "src/test/kotlin/storage/test.db"
-private fun deleteTestDb() {
-    if (File(localTestDbName()).exists()) {
-        File(localTestDbName()).delete()
-    }
-}

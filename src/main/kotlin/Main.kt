@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
                     null -> println("Unrecognized command '$input'")
                     else -> {
                         table.storage.flush()
-                        executeMetaStatement(this)
+                        executeMetaStatement(this, table)
                     }
                 }
             }

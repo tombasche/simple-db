@@ -1,9 +1,11 @@
 package repl.metacommand
 
 fun prepare(input: String): MetaCommand? =
-    if (input.lowercase().startsWith("/exit")) {
-        MetaCommand.Exit
-    } else null
+    when(input.lowercase()) {
+        "/exit" -> MetaCommand.Exit
+        "/clear" -> MetaCommand.Clear
+        else -> null
+    }
 
 
 fun isPossibleMetaStatement(input: String) = input.startsWith("/")
