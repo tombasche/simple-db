@@ -1,3 +1,4 @@
+import repl.args.parseArgs
 import repl.display.printPrompt
 import repl.input.clean
 import repl.metacommand.isPossibleMetaStatement
@@ -12,13 +13,20 @@ import repl.metacommand.execute as executeMetaStatement
 import repl.metacommand.prepare as prepareMetaStatement
 
 fun main(args: Array<String>) {
-    // TODO allow passing in a db name from args
-    val table = Table.open("todo.db")
+    val replArgs = when (val argsResult = parseArgs(args.toList())) {
+        is Failure -> {
+            println(argsResult.error)
+            return
+        }
+        is Success -> {
+            argsResult.value
+        }
+    }
+    val table = Table.open(replArgs.dbName)
     registerShutdownHandler(table)
 
     while (true) {
         printPrompt()
-        // TODO allow passing in the input from args
         val input = readlnOrNull()?.let { clean(it) } ?: continue
         if (isPossibleMetaStatement(input)) {
             with(prepareMetaStatement(input)) {

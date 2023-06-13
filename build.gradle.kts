@@ -18,6 +18,16 @@ application {
     mainClass.set("MainKt")
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 dependencies {
     val kotestVersion = "5.6.2"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
