@@ -1,6 +1,7 @@
 import repl.args.parseArgs
 import repl.display.printPrompt
 import repl.input.clean
+import repl.input.inputBuffer
 import repl.metacommand.isPossibleMetaStatement
 import storage.Table
 import storage.flush
@@ -26,30 +27,41 @@ fun main(args: Array<String>) {
     }
     val table = Table.open(replArgs.dbName)
     registerShutdownHandler(table)
-    var initialInput: String? = replArgs.query
+    val initialInput = replArgs.query?.let { inputBuffer(it).toMutableList() } ?: mutableListOf()
     while (true) {
         printPrompt()
-        val input = initialInput ?: readlnOrNull()?.let { clean(it) } ?: continue
-        if (isPossibleMetaStatement(input)) {
-            with(prepareMetaStatement(input)) {
-                when (this) {
-                    null -> println("Unrecognized command '$input'")
-                    else -> {
-                        table.storage.flush()
-                        executeMetaStatement(this, table)
+        val inputs = if (initialInput.isNotEmpty()) {
+            initialInput
+        } else {
+            readlnOrNull()?.let { inputBuffer(it) } ?: continue
+        }
+
+        inputs.forEachIndexed { idx, input ->
+            if (isPossibleMetaStatement(input)) {
+                with(prepareMetaStatement(input)) {
+                    when (this) {
+                        null -> println("Unrecognized command '$input'")
+                        else -> {
+                            table.storage.flush()
+                            executeMetaStatement(this, table)
+                        }
                     }
                 }
-            }
-            continue
-        }
-        with(prepareStatement(input)) {
-            when (this) {
-                null -> println("Unrecognized command '$input'")
-                is Failure -> println("Failed to parse statement: '$input' due to ${this.error}")
-                is Success -> println(executeStatement(table, this.value))
+                inputs.drop(idx)
             }
         }
-        initialInput = null
+        inputs.forEachIndexed {
+            idx, input ->
+            with(prepareStatement(input)) {
+                when (this) {
+                    null -> println("Unrecognized command '$input'")
+                    is Failure -> println("Failed to parse statement: '$input' due to ${this.error}")
+                    is Success -> println(executeStatement(table, this.value))
+                }
+            }
+            inputs.drop(idx)
+        }
+        initialInput.clear()
     }
 }
 

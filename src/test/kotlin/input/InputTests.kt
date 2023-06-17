@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import repl.input.clean
+import repl.input.inputBuffer
 
 class InputTests : FunSpec({
     test("extra spaces are removed from the input") {
@@ -25,5 +26,14 @@ class InputTests : FunSpec({
         val rawInput = "        "
         val result = clean(rawInput)
         result.shouldBeNull()
+    }
+})
+
+class InputMultipleLineParsingTests: FunSpec({
+    test("if input contains a semicolon it is considered multiple lines of input") {
+        val rawInput = "insert id=1 users; select users"
+        val result = inputBuffer(rawInput)
+
+        result shouldBe listOf("insert id=1 users", "select users")
     }
 })
