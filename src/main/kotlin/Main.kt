@@ -66,12 +66,23 @@ fun main(args: Array<String>) {
 }
 
 private fun registerShutdownHandler(table: Table) {
-    Signal.handle(Signal("INT")) {
+
+    fun flushAndExit() {
         table.storage.flush()
         exitProcess(0)
     }
+
+    var receivedSignal = false
+    Signal.handle(Signal("INT")) {
+        if (!receivedSignal) {
+            flushAndExit()
+        }
+        receivedSignal = true
+    }
     Signal.handle(Signal("TERM")) {
-        table.storage.flush()
-        exitProcess(0)
+        if (!receivedSignal) {
+            flushAndExit()
+        }
+        receivedSignal = true
     }
 }
