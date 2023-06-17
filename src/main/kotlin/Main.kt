@@ -1,14 +1,12 @@
 import repl.args.parseArgs
 import repl.display.printPrompt
-import repl.input.clean
 import repl.input.inputBuffer
+import repl.metacommand.MetaCommand
 import repl.metacommand.isPossibleMetaStatement
 import storage.Table
-import storage.flush
 import sun.misc.Signal
 import utils.Failure
 import utils.Success
-import kotlin.system.exitProcess
 import command.execute as executeStatement
 import command.prepare as prepareStatement
 import repl.metacommand.execute as executeMetaStatement
@@ -41,10 +39,7 @@ fun main(args: Array<String>) {
                 with(prepareMetaStatement(input)) {
                     when (this) {
                         null -> println("Unrecognized command '$input'")
-                        else -> {
-                            table.storage.flush()
-                            executeMetaStatement(this, table)
-                        }
+                        else -> { executeMetaStatement(this, table) }
                     }
                 }
                 inputs.drop(idx)
@@ -67,21 +62,16 @@ fun main(args: Array<String>) {
 
 private fun registerShutdownHandler(table: Table) {
 
-    fun flushAndExit() {
-        table.storage.flush()
-        exitProcess(0)
-    }
-
     var receivedSignal = false
     Signal.handle(Signal("INT")) {
         if (!receivedSignal) {
-            flushAndExit()
+            executeMetaStatement(MetaCommand.Exit, table)
         }
         receivedSignal = true
     }
     Signal.handle(Signal("TERM")) {
         if (!receivedSignal) {
-            flushAndExit()
+            executeMetaStatement(MetaCommand.Exit, table)
         }
         receivedSignal = true
     }
