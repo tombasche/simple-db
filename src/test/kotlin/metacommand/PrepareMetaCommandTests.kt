@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import repl.metacommand.MetaCommand
 import repl.metacommand.prepare
 
-class PrepareMetaCommandTests: FunSpec({
+class PrepareMetaCommandTests : FunSpec({
     test("if input starts with /exit, it's an exit command") {
         prepare("/exit") shouldBe MetaCommand.Exit
     }

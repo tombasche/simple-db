@@ -10,6 +10,7 @@ fun execute(metaCommand: MetaCommand, table: Table): Unit =
             println("Bye!")
             exitProcess(0)
         }
+
         MetaCommand.Clear -> {
             table.storage.clear()
             println("Database ${table.storage.file.name} deleted.")

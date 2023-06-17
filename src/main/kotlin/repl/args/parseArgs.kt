@@ -6,14 +6,17 @@ import utils.Success
 import utils.get
 
 fun parseArgs(args: List<String>): Either<Args> {
-    val dbName = when(val result = getDbNameValue(args)) {
+    val dbName = when (val result = getDbNameValue(args)) {
         is Success -> appendSuffixIfRequired(result.get())
         is Failure -> return result
     }
 
-    return Success(Args(
-        dbName = dbName
-    ))
+    return Success(
+        Args(
+            dbName = dbName,
+            query = getQueryValue(args)
+        )
+    )
 }
 
 private fun getDbNameValue(args: List<String>): Either<String> {
@@ -25,3 +28,8 @@ private fun getDbNameValue(args: List<String>): Either<String> {
 
 private fun appendSuffixIfRequired(dbName: String): String =
     if (dbName.endsWith(".db")) dbName else "$dbName.db"
+
+private fun getQueryValue(args: List<String>): String? {
+    val key = args.find { it == "-q" } ?: return null
+    return key.let { args.getOrNull(args.indexOf(it) + 1) }
+}

@@ -7,6 +7,7 @@ import storage.flush
 import sun.misc.Signal
 import utils.Failure
 import utils.Success
+import kotlin.system.exitProcess
 import command.execute as executeStatement
 import command.prepare as prepareStatement
 import repl.metacommand.execute as executeMetaStatement
@@ -18,16 +19,17 @@ fun main(args: Array<String>) {
             println(argsResult.error)
             return
         }
+
         is Success -> {
             argsResult.value
         }
     }
     val table = Table.open(replArgs.dbName)
     registerShutdownHandler(table)
-
+    var initialInput: String? = replArgs.query
     while (true) {
         printPrompt()
-        val input = readlnOrNull()?.let { clean(it) } ?: continue
+        val input = initialInput ?: readlnOrNull()?.let { clean(it) } ?: continue
         if (isPossibleMetaStatement(input)) {
             with(prepareMetaStatement(input)) {
                 when (this) {
@@ -40,7 +42,6 @@ fun main(args: Array<String>) {
             }
             continue
         }
-
         with(prepareStatement(input)) {
             when (this) {
                 null -> println("Unrecognized command '$input'")
@@ -48,14 +49,17 @@ fun main(args: Array<String>) {
                 is Success -> println(executeStatement(table, this.value))
             }
         }
+        initialInput = null
     }
 }
 
 private fun registerShutdownHandler(table: Table) {
     Signal.handle(Signal("INT")) {
         table.storage.flush()
+        exitProcess(0)
     }
     Signal.handle(Signal("TERM")) {
         table.storage.flush()
+        exitProcess(0)
     }
 }

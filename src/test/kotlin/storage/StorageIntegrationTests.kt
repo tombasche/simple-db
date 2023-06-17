@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import statement.Row
-import java.io.File
 
 class StorageIntegrationTests : FunSpec({
     test("flushes the storage to disk and reads it back") {

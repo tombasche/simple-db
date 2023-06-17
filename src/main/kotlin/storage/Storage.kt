@@ -50,5 +50,5 @@ fun Storage.load() {
 }
 
 fun Storage.clear() = rows.clear().also {
-        if (file.exists()) file.delete() else Unit
-    }
+    if (file.exists()) file.delete() else Unit
+}
